@@ -10,7 +10,9 @@ import { MessagesService } from 'src/messages/messages.service';
 import { Server, Socket } from 'socket.io';
 
 @WebSocketGateway({
-  cors: true,
+  cors: {
+    origin: '*',
+  },
 })
 export class ConversationsGateway {
   @WebSocketServer()
