@@ -35,8 +35,8 @@ export class AuthController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Get('/profile')
-  async getProfile(@Request() req): Promise<User> {
+  @Get('/authenticated-user')
+  async getAuthenticatedUser(@Request() req): Promise<User> {
     return await this.usersService.findById(req.user.id);
   }
 

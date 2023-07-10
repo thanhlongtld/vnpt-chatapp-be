@@ -15,4 +15,10 @@ export class Message {
 
   @ManyToOne(() => Conversation, (conversation) => conversation.messages)
   conversation: Conversation;
+
+  @Column({
+    type: 'timestamptz',
+    nullable: true,
+  })
+  sentTime: Date;
 }

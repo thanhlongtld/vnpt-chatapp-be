@@ -7,10 +7,14 @@ export class ConversationMember {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => User, (user) => user.conversations)
+  @ManyToOne(() => User, (user) => user.conversations, {
+    cascade: true,
+  })
   user: User;
 
-  @ManyToOne(() => Conversation, (conversation) => conversation.members)
+  @ManyToOne(() => Conversation, (conversation) => conversation.members, {
+    cascade: true,
+  })
   conversation: Conversation;
 
   @Column({

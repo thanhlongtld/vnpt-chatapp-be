@@ -88,8 +88,8 @@ export class AuthService {
     const refreshToken = this.generateRefreshToken(user);
 
     return {
-      accessToken,
-      refreshToken,
+      access: accessToken,
+      refresh: refreshToken,
     };
   }
 
