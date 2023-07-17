@@ -25,4 +25,10 @@ export class User {
     (conversationMember) => conversationMember.user,
   )
   conversations: ConversationMember[];
+
+  @Column({
+    unique: true,
+    nullable: true,
+  })
+  telegramId: string;
 }

@@ -22,6 +22,14 @@ export class UsersService {
     return await queryBuilder.getOne();
   }
 
+  async findByTelegramId(telegramId: string): Promise<User> {
+    return await this.userRepository.findOne({
+      where: {
+        telegramId,
+      },
+    });
+  }
+
   async create(data: Partial<User>): Promise<User> {
     const newUser = this.userRepository.create(data);
 
@@ -40,5 +48,24 @@ export class UsersService {
         id: Not(id),
       },
     });
+  }
+
+  async saveTelegramId(userId, telegramId: string) {
+    return await this.userRepository.update(
+      {
+        id: userId,
+      },
+      {
+        telegramId,
+      },
+    );
+  }
+
+  async getRandomOtherUser(id: number) {
+    return await this.userRepository
+      .createQueryBuilder()
+      .where('id <> :id', { id })
+      .orderBy('RANDOM()')
+      .getOne();
   }
 }

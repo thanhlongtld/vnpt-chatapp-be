@@ -113,7 +113,7 @@ export class ConversationsService {
   }
 
   async getDetail(id: number) {
-    return await this.conversationRepository.findOneOrFail({
+    return await this.conversationRepository.findOne({
       where: {
         id,
       },

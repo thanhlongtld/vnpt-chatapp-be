@@ -7,11 +7,13 @@ import { ConversationsController } from './conversations.controller';
 import { ConversationsGateway } from './conversations.gateway';
 import { ConversationsService } from './conversations.service';
 import { MessagesModule } from 'src/messages/messages.module';
+import { SocialBotsModule } from 'src/social-bots/social-bots.module';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([Conversation, ConversationMember, User]),
     MessagesModule,
+    SocialBotsModule,
   ],
   controllers: [ConversationsController],
   providers: [ConversationsService, ConversationsGateway],

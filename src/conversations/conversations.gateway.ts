@@ -8,8 +8,9 @@ import {
 import { Server, Socket } from 'socket.io';
 import { MessagesService } from 'src/messages/messages.service';
 import { ConversationsService } from './conversations.service';
-import { Conversation } from './conversation.entity';
 import { User } from 'src/users/user.entity';
+import { SocialBotService } from 'src/social-bots/social-bot.service';
+import { BotName } from 'src/social-bots/constants/bot-name';
 
 @WebSocketGateway({
   cors: {
@@ -23,6 +24,7 @@ export class ConversationsGateway {
   constructor(
     private readonly conversationsService: ConversationsService,
     private readonly messagesService: MessagesService,
+    private readonly socialBotService: SocialBotService,
   ) {}
 
   @SubscribeMessage('joinPersonalConversation')
@@ -69,8 +71,13 @@ export class ConversationsGateway {
     @MessageBody('userId') userId: number,
     @MessageBody('text') text: string,
   ): Promise<string> {
-    const conversation = new Conversation();
-    conversation.id = conversationId;
+    const conversation = await this.conversationsService.getDetail(
+      conversationId,
+    );
+
+    if (!conversation) {
+      return 'conversation-not-found';
+    }
 
     const user = new User();
     user.id = userId;
@@ -82,6 +89,20 @@ export class ConversationsGateway {
     );
 
     this.server.to(conversationId.toString()).emit('newMessage', newMessage);
+
+    if (conversation.isPersonal) {
+      const otherMember = conversation.members.find(
+        (member) => member.user.id !== userId,
+      );
+
+      if (otherMember && otherMember.user.telegramId) {
+        await this.socialBotService.sendMessageToUser(
+          BotName.TELEGRAM_BOT,
+          otherMember.user.telegramId,
+          text,
+        );
+      }
+    }
 
     return 'Message sent';
   }

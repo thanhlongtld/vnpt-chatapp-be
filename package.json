@@ -22,15 +22,16 @@
     "typeorm": "npx typeorm -d dist/ormconfig.js",
     "migrations": "yarn build && yarn typeorm -- migration:generate",
     "migrate": "yarn build && yarn typeorm -- migration:run",
-    "migration:revert": "yarn build && yarn typeorm -- migration:revert"
+    "migration:revert": "yarn build && yarn typeorm -- migration:revert",
+    "telegramBot": "yarn build && node dist/src/telegram-bot.js"
   },
   "dependencies": {
-    "@nestjs/mapped-types": "*",
-    "@nestjs/passport": "^10.0.0",
     "@nestjs/common": "^9.0.0",
     "@nestjs/config": "^2.3.1",
     "@nestjs/core": "^9.0.0",
     "@nestjs/jwt": "^10.0.3",
+    "@nestjs/mapped-types": "*",
+    "@nestjs/passport": "^10.0.0",
     "@nestjs/platform-express": "^9.0.0",
     "@nestjs/platform-socket.io": "^9.4.0",
     "@nestjs/swagger": "^6.3.0",
@@ -48,6 +49,7 @@
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^7.2.0",
+    "telegraf": "^4.12.2",
     "typeorm": "^0.3.17"
   },
   "devDependencies": {
